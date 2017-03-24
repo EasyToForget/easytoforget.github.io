@@ -187,7 +187,8 @@
 
     <!-- Custom Head -->
     
-</head>
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
     
@@ -387,41 +388,53 @@
 <li>别问我为什么悲剧，我也不知道。</li>
 </ul>
 <h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>以 API 根地址和百度地图 KEY 来举例说明</p>
-<h4 id="1、配置-gradle-properties"><a href="#1、配置-gradle-properties" class="headerlink" title="1、配置 gradle.properties"></a>1、配置 gradle.properties</h4><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">BASE_API_DEBUG=\"http://api.android.com\"</div><div class="line">BASE_API_PRODUCT=\"http://api.android.test\"</div><div class="line">BAIDU_APPKEY_VALUE_DEBUG=xrAslSGF7xjSLI2kFFgQb1Dl</div><div class="line">BAIDU_APPKEY_VALUE_PRODUCT=aMfi0c1f3oeefjmMpmEEeGPs</div></pre></td></tr></table></figure>
-<h4 id="2、配置项目的-build-gradle-文件"><a href="#2、配置项目的-build-gradle-文件" class="headerlink" title="2、配置项目的 build.gradle 文件"></a>2、配置项目的 build.gradle 文件</h4><pre><code> buildTypes {
-    release {
-        buildConfigField(&quot;String&quot;, &quot;BASE_API&quot;, project.BASE_API_PRODUCT)
-        manifestPlaceholders = [BAIDU_APPKEY_VALUE: project.BAIDU_APPKEY_VALUE_PRODUCT]
-    }
-    debug {
-        buildConfigField(&quot;String&quot;, &quot;BASE_API&quot;, project.BASE_API_DEBUG)
-        manifestPlaceholders = [BAIDU_APPKEY_VALUE     : project.BAIDU_APPKEY_VALUE_DEBUG]
-    }
-}
-</code></pre><blockquote>
+<h4 id="1、配置-gradle-properties"><a href="#1、配置-gradle-properties" class="headerlink" title="1、配置 gradle.properties"></a>1、配置 gradle.properties</h4><pre class="line-numbers language-groovy"><code class="language-groovy">BASE_API_DEBUG<span class="token operator">=</span>\<span class="token string">"http://api.android.com\"</span>
+BASE_API_PRODUCT<span class="token operator">=</span>\<span class="token string">"http://api.android.test\"</span>
+BAIDU_APPKEY_VALUE_DEBUG<span class="token operator">=</span>xrAslSGF7xjSLI2kFFgQb1Dl
+BAIDU_APPKEY_VALUE_PRODUCT<span class="token operator">=</span>aMfi0c1f3oeefjmMpmEEeGPs
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="2、配置项目的-build-gradle-文件"><a href="#2、配置项目的-build-gradle-文件" class="headerlink" title="2、配置项目的 build.gradle 文件"></a>2、配置项目的 build.gradle 文件</h4><pre class="line-numbers language-groovy"><code class="language-groovy">    buildTypes <span class="token punctuation">{</span>
+        release <span class="token punctuation">{</span>
+            <span class="token function">buildConfigField</span><span class="token punctuation">(</span><span class="token string">"String"</span><span class="token punctuation">,</span> <span class="token string">"BASE_API"</span><span class="token punctuation">,</span> project<span class="token operator">.</span>BASE_API_PRODUCT<span class="token punctuation">)</span>
+            manifestPlaceholders <span class="token operator">=</span> <span class="token punctuation">[</span>BAIDU_APPKEY_VALUE<span class="token punctuation">:</span> project<span class="token operator">.</span>BAIDU_APPKEY_VALUE_PRODUCT<span class="token punctuation">]</span>
+      <span class="token punctuation">}</span>
+        debug <span class="token punctuation">{</span>
+            <span class="token function">buildConfigField</span><span class="token punctuation">(</span><span class="token string">"String"</span><span class="token punctuation">,</span> <span class="token string">"BASE_API"</span><span class="token punctuation">,</span> project<span class="token operator">.</span>BASE_API_DEBUG<span class="token punctuation">)</span>
+            manifestPlaceholders <span class="token operator">=</span> <span class="token punctuation">[</span>BAIDU_APPKEY_VALUE<span class="token punctuation">:</span> project<span class="token operator">.</span>BAIDU_APPKEY_VALUE_DEBUG<span class="token punctuation">]</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<blockquote>
 <p>buildConfigField(“String”, “BASE_API”, project.BASE_API_PRODUCT)</p>
-<h5 id="BASE-API-PRODUCT-和-BASE-API-DEBUG-就是我们在-gradle-properties-中定义的正式环境和测试环境的-API-根地址。这一行代码编译后会在-BuildConfig-java-文件中生成下面的代码。"><a href="#BASE-API-PRODUCT-和-BASE-API-DEBUG-就是我们在-gradle-properties-中定义的正式环境和测试环境的-API-根地址。这一行代码编译后会在-BuildConfig-java-文件中生成下面的代码。" class="headerlink" title="BASE_API_PRODUCT 和 BASE_API_DEBUG 就是我们在 gradle.properties 中定义的正式环境和测试环境的 API 根地址。这一行代码编译后会在 BuildConfig.java 文件中生成下面的代码。"></a>BASE_API_PRODUCT 和 BASE_API_DEBUG 就是我们在 gradle.properties 中定义的正式环境和测试环境的 API 根地址。这一行代码编译后会在 BuildConfig.java 文件中生成下面的代码。</h5><p>public static final String BASE_API = “<a href="http://api.android.com" target="_blank" rel="external">http://api.android.com</a>“;  正式环境</p>
-<p>public static final String BASE_API = “<a href="http://api.android.test" target="_blank" rel="external">http://api.android.test</a>“;  测试环境</p>
+</blockquote>
+<h5 id="BASE-API-PRODUCT-和-BASE-API-DEBUG-就是我们在-gradle-properties-中定义的正式环境和测试环境的-API-根地址。这一行代码编译后会在-BuildConfig-java-文件中生成下面的代码。"><a href="#BASE-API-PRODUCT-和-BASE-API-DEBUG-就是我们在-gradle-properties-中定义的正式环境和测试环境的-API-根地址。这一行代码编译后会在-BuildConfig-java-文件中生成下面的代码。" class="headerlink" title="BASE_API_PRODUCT 和 BASE_API_DEBUG 就是我们在 gradle.properties 中定义的正式环境和测试环境的 API 根地址。这一行代码编译后会在 BuildConfig.java 文件中生成下面的代码。"></a>BASE_API_PRODUCT 和 BASE_API_DEBUG 就是我们在 gradle.properties 中定义的正式环境和测试环境的 API 根地址。这一行代码编译后会在 BuildConfig.java 文件中生成下面的代码。</h5><blockquote>
+<p>public static final String BASE_API = “<a href="http://api.android.com" target="_blank" rel="external">http://api.android.com</a>“;  正式环境<br>public static final String BASE_API = “<a href="http://api.android.test" target="_blank" rel="external">http://api.android.test</a>“;  测试环境</p>
 </blockquote>
 <p>这样我们就可以直接调用 BuildConfig.BASE_API 来使用 API 根地址了。</p>
 <blockquote>
 <p>manifestPlaceholders = [BAIDU_APPKEY_VALUE: project.BAIDU_APPKEY_VALUE_PRODUCT] </p>
 </blockquote>
-<h5 id="BAIDU-APPKEY-VALUE-PRODUCT-是我们在-gradle-properties-中定义的百度地图-APP-KEY，-当然了，如果你有多个-SDK-的-KEY-可以这样写："><a href="#BAIDU-APPKEY-VALUE-PRODUCT-是我们在-gradle-properties-中定义的百度地图-APP-KEY，-当然了，如果你有多个-SDK-的-KEY-可以这样写：" class="headerlink" title="BAIDU_APPKEY_VALUE_PRODUCT 是我们在 gradle.properties 中定义的百度地图 APP KEY， 当然了，如果你有多个 SDK 的 KEY , 可以这样写："></a>BAIDU_APPKEY_VALUE_PRODUCT 是我们在 gradle.properties 中定义的百度地图 APP KEY， 当然了，如果你有多个 SDK 的 KEY , 可以这样写：</h5><figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">manifestPlaceholders = [<span class="string">BAIDU_APPKEY_VALUE     :</span> project.BAIDU_APPKEY_VALUE_PRODUCT</div><div class="line">                        , <span class="string">GETUI_APPID_VALUE    :</span> project.GETUI_APPID_VALUE_PRODUCT</div><div class="line">                        , <span class="string">GETUI_APPKEY_VALUE   :</span> project.GETUI_APPKEY_VALUE_PRODUCT</div><div class="line">                        , <span class="string">GETUI_APPSECRET_VALUE:</span> project.GETUI_APPSECRET_VALUE_PRODUCT</div><div class="line">                        , <span class="string">QQ_SHARE_APP_ID_VALUE:</span> project.QQ_SHARE_APP_ID_PRODUCT]</div></pre></td></tr></table></figure>
+<h5 id="BAIDU-APPKEY-VALUE-PRODUCT-是我们在-gradle-properties-中定义的百度地图-APP-KEY，-当然了，如果你有多个-SDK-的-KEY-可以这样写："><a href="#BAIDU-APPKEY-VALUE-PRODUCT-是我们在-gradle-properties-中定义的百度地图-APP-KEY，-当然了，如果你有多个-SDK-的-KEY-可以这样写：" class="headerlink" title="BAIDU_APPKEY_VALUE_PRODUCT 是我们在 gradle.properties 中定义的百度地图 APP KEY， 当然了，如果你有多个 SDK 的 KEY , 可以这样写："></a>BAIDU_APPKEY_VALUE_PRODUCT 是我们在 gradle.properties 中定义的百度地图 APP KEY， 当然了，如果你有多个 SDK 的 KEY , 可以这样写：</h5><pre class="line-numbers language-groovy"><code class="language-groovy"> manifestPlaceholders <span class="token operator">=</span> <span class="token punctuation">[</span>BAIDU_APPKEY_VALUE     <span class="token punctuation">:</span> project<span class="token operator">.</span>BAIDU_APPKEY_VALUE_PRODUCT
+                         <span class="token punctuation">,</span> GETUI_APPID_VALUE    <span class="token punctuation">:</span> project<span class="token operator">.</span>GETUI_APPID_VALUE_PRODUCT
+                         <span class="token punctuation">,</span> GETUI_APPKEY_VALUE   <span class="token punctuation">:</span> project<span class="token operator">.</span>GETUI_APPKEY_VALUE_PRODUCT
+                         <span class="token punctuation">,</span> GETUI_APPSECRET_VALUE<span class="token punctuation">:</span> project<span class="token operator">.</span>GETUI_APPSECRET_VALUE_PRODUCT
+                         <span class="token punctuation">,</span> QQ_SHARE_APP_ID_VALUE<span class="token punctuation">:</span> project<span class="token operator">.</span>QQ_SHARE_APP_ID_PRODUCT<span class="token punctuation">]</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>顾名思义， manifestPlaceholders 就是配置在 manifest 中引用的变量的。<br>配置完之后，我们就可以在 manifest 中使用了。</p>
-<pre><code>&lt;meta-data
-      android:name=&quot;com.baidu.lbsapi.API_KEY&quot;
-       android:value=&quot;${BAIDU_APPKEY_VALUE}&quot; /&gt;
-&lt;meta-data
-      android:name=&quot;PUSH_APPID&quot;
-      android:value=&quot;${GETUI_APPID_VALUE}&quot; /&gt;
-&lt;meta-data
-      android:name=&quot;PUSH_APPKEY&quot;
-      android:value=&quot;${GETUI_APPKEY_VALUE}&quot; /&gt;
-&lt;meta-data
-      android:name=&quot;PUSH_APPSECRET&quot;
-      android:value=&quot;${GETUI_APPSECRET_VALUE}&quot; /&gt;
-</code></pre><h4 id="不管多少个-KEY-多少个变量，BOSS-再也不用担心我们换错-KEY-啦～"><a href="#不管多少个-KEY-多少个变量，BOSS-再也不用担心我们换错-KEY-啦～" class="headerlink" title="不管多少个 KEY , 多少个变量，BOSS 再也不用担心我们换错 KEY 啦～"></a>不管多少个 KEY , 多少个变量，BOSS 再也不用担心我们换错 KEY 啦～</h4>
+<pre class="line-numbers language-java"><code class="language-java">     <span class="token operator">&lt;</span>meta<span class="token operator">-</span>data
+           android<span class="token operator">:</span>name<span class="token operator">=</span><span class="token string">"com.baidu.lbsapi.API_KEY"</span>
+            android<span class="token operator">:</span>value<span class="token operator">=</span><span class="token string">"${BAIDU_APPKEY_VALUE}"</span> <span class="token operator">/</span><span class="token operator">></span>
+     <span class="token operator">&lt;</span>meta<span class="token operator">-</span>data
+           android<span class="token operator">:</span>name<span class="token operator">=</span><span class="token string">"PUSH_APPID"</span>
+           android<span class="token operator">:</span>value<span class="token operator">=</span><span class="token string">"${GETUI_APPID_VALUE}"</span> <span class="token operator">/</span><span class="token operator">></span>
+     <span class="token operator">&lt;</span>meta<span class="token operator">-</span>data
+           android<span class="token operator">:</span>name<span class="token operator">=</span><span class="token string">"PUSH_APPKEY"</span>
+           android<span class="token operator">:</span>value<span class="token operator">=</span><span class="token string">"${GETUI_APPKEY_VALUE}"</span> <span class="token operator">/</span><span class="token operator">></span>
+     <span class="token operator">&lt;</span>meta<span class="token operator">-</span>data
+           android<span class="token operator">:</span>name<span class="token operator">=</span><span class="token string">"PUSH_APPSECRET"</span>
+           android<span class="token operator">:</span>value<span class="token operator">=</span><span class="token string">"${GETUI_APPSECRET_VALUE}"</span> <span class="token operator">/</span><span class="token operator">></span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="不管多少个-KEY-多少个变量，BOSS-再也不用担心我们换错-KEY-啦～"><a href="#不管多少个-KEY-多少个变量，BOSS-再也不用担心我们换错-KEY-啦～" class="headerlink" title="不管多少个 KEY , 多少个变量，BOSS 再也不用担心我们换错 KEY 啦～"></a>不管多少个 KEY , 多少个变量，BOSS 再也不用担心我们换错 KEY 啦～</h4>
     
 
     
