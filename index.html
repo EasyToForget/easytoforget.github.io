@@ -343,11 +343,6 @@
       
         
           <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近在写 Notification 的 Demo，梳理 Notification 的各种样式以及点击 Notification 启动 Activity 的各种方式。<br>所有的 app 点击通知栏启动 Activity 的方式不外乎以下三种：</p>
-<ul>
-<li>如果要启动的 app 已经被杀掉，则启动主界面，否则启动栈顶的 Activity；</li>
-<li>启动特定的 Activity，不管当前 app 有没有被杀掉，点击后退键后返回到当前 app 的主界面，例如微信、QQ等等；</li>
-<li>启动特定的 Activity，启动前判断，如果当前程序没有被杀掉且除了当前被启动的 Activity 外至少有一个 Activity 没有被 finish，点击后退键则返回到之前栈顶的 Activity；如果当前程序被杀掉或之前任务栈没有 Activity，点击后退键则返回到当前 app 的主界面，例如网易云音乐。</li>
-</ul>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/08/05/android-activity-task-stack-manager/#more" rel="contents">

@@ -111,28 +111,19 @@
 
 
 
-<meta name="description" content="前言最近在写 Notification 的 Demo，梳理 Notification 的各种样式以及点击 Notification 启动 Activity 的各种方式。所有的 app 点击通知栏启动 Activity 的方式不外乎以下三种：
-
-如果要启动的 app 已经被杀掉，则启动主界面，否则启动栈顶的 Activity；
-启动特定的 Activity，不管当前 app 有没有被杀掉，点击后退键">
+<meta name="description" content="前言最近在写 Notification 的 Demo，梳理 Notification 的各种样式以及点击 Notification 启动 Activity 的各种方式。所有的 app 点击通知栏启动 Activity 的方式不外乎以下三种：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android 全局管理 Activity 栈">
 <meta property="og:url" content="https://github.com/EasyToForget/2017/08/05/android-activity-task-stack-manager/index.html">
 <meta property="og:site_name" content="GitHub">
-<meta property="og:description" content="前言最近在写 Notification 的 Demo，梳理 Notification 的各种样式以及点击 Notification 启动 Activity 的各种方式。所有的 app 点击通知栏启动 Activity 的方式不外乎以下三种：
-
-如果要启动的 app 已经被杀掉，则启动主界面，否则启动栈顶的 Activity；
-启动特定的 Activity，不管当前 app 有没有被杀掉，点击后退键">
-<meta property="og:image" content="https://github.com/EasyToForget/EasyToForget/2017/08/05/android-activity-task-stack-manager/">
-<meta property="og:image" content="https://github.com/EasyToForget/EasyToForget/2017/08/05/android-activity-task-stack-manager/">
-<meta property="og:updated_time" content="2017-08-05T09:07:26.663Z">
+<meta property="og:description" content="前言最近在写 Notification 的 Demo，梳理 Notification 的各种样式以及点击 Notification 启动 Activity 的各种方式。所有的 app 点击通知栏启动 Activity 的方式不外乎以下三种：">
+<meta property="og:image" content="https://raw.githubusercontent.com/EasyToForget/easytoforget.github.io/master/2017/08/05/android-activity-task-stack-manager/01.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/EasyToForget/easytoforget.github.io/master/2017/08/05/android-activity-task-stack-manager/02.jpg">
+<meta property="og:updated_time" content="2017-08-05T09:12:54.389Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android 全局管理 Activity 栈">
-<meta name="twitter:description" content="前言最近在写 Notification 的 Demo，梳理 Notification 的各种样式以及点击 Notification 启动 Activity 的各种方式。所有的 app 点击通知栏启动 Activity 的方式不外乎以下三种：
-
-如果要启动的 app 已经被杀掉，则启动主界面，否则启动栈顶的 Activity；
-启动特定的 Activity，不管当前 app 有没有被杀掉，点击后退键">
-<meta name="twitter:image" content="https://github.com/EasyToForget/EasyToForget/2017/08/05/android-activity-task-stack-manager/">
+<meta name="twitter:description" content="前言最近在写 Notification 的 Demo，梳理 Notification 的各种样式以及点击 Notification 启动 Activity 的各种方式。所有的 app 点击通知栏启动 Activity 的方式不外乎以下三种：">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/EasyToForget/easytoforget.github.io/master/2017/08/05/android-activity-task-stack-manager/01.jpg">
 
 
 
@@ -351,15 +342,15 @@
 
       
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近在写 Notification 的 Demo，梳理 Notification 的各种样式以及点击 Notification 启动 Activity 的各种方式。<br>所有的 app 点击通知栏启动 Activity 的方式不外乎以下三种：</p>
+<a id="more"></a>
 <ul>
 <li>如果要启动的 app 已经被杀掉，则启动主界面，否则启动栈顶的 Activity；</li>
 <li>启动特定的 Activity，不管当前 app 有没有被杀掉，点击后退键后返回到当前 app 的主界面，例如微信、QQ等等；</li>
 <li>启动特定的 Activity，启动前判断，如果当前程序没有被杀掉且除了当前被启动的 Activity 外至少有一个 Activity 没有被 finish，点击后退键则返回到之前栈顶的 Activity；如果当前程序被杀掉或之前任务栈没有 Activity，点击后退键则返回到当前 app 的主界面，例如网易云音乐。</li>
 </ul>
-<a id="more"></a>
 <p>上面的第三种启动方式需要判断 app 中是否有暂时没有被 finish 的 Activity。<br>很遗憾，Google 官方并没有给我们提供类似的方法去做判断，但这不妨碍我们自己去深究这个问题，这个问题就要牵涉到 app 的 Activity 管理。</p>
 <h3 id="之前我们是如何实现的？"><a href="#之前我们是如何实现的？" class="headerlink" title="之前我们是如何实现的？"></a>之前我们是如何实现的？</h3><p>我刚开始做项目的时候，管理 Activity 的方式是在 BaseActivity 中维护 Activity 的 List，在 OnCreate() 中 onDestroy() 调用 add 和 remove ，但是如果 Activity 没有继承封装的 BaseActivity，那每个 Activity 就都要在 onCreate() 中写维护 BaseActivity 中的 List 的代码，同时当 Activity 销毁时，也要从 List 中将此 Activity 移除等等，这样搞下来，一旦 Activity 特别多的时候，说不定哪次就忘了，出了问题了不好追踪。</p>
-<h3 id="那应该如何解决？"><a href="#那应该如何解决？" class="headerlink" title="那应该如何解决？"></a>那应该如何解决？</h3><center><img src="/EasyToForget/2017/08/05/android-activity-task-stack-manager/" alt="Alt text"></center><br><strong>喜大普奔。</strong><br>Google 亲大爷知道我们想要什么，想什么来什么，一次一次的给 Android 搬砖工们带来了一个又一个的福音。<br>这不，从 API 14 开始，Application 中多了一个方法：<strong>registerActivityLifecycleCallbacks</strong><br><br><br>顾名思义，注册 Activity 生命周期回调，可以全局监听 Activity 的生命周期。因此我们可以从 Application 中全局监听所有&gt;Activity 并对其进行管理。<br><br><br><center><img src="/EasyToForget/2017/08/05/android-activity-task-stack-manager/" alt="Alt text"></center>
+<h3 id="那应该如何解决？"><a href="#那应该如何解决？" class="headerlink" title="那应该如何解决？"></a>那应该如何解决？</h3><center><img src="https://raw.githubusercontent.com/EasyToForget/easytoforget.github.io/master/2017/08/05/android-activity-task-stack-manager/01.jpg" alt="image"></center><br><strong>喜大普奔。</strong><br>Google 亲大爷知道我们想要什么，想什么来什么，一次一次的给 Android 搬砖工们带来了一个又一个的福音。<br>这不，从 API 14 开始，Application 中多了一个方法：<strong>registerActivityLifecycleCallbacks</strong><br><br><br>顾名思义，注册 Activity 生命周期回调，可以全局监听 Activity 的生命周期。因此我们可以从 Application 中全局监听所有&gt;Activity 并对其进行管理。<br><br><br><center><img src="https://raw.githubusercontent.com/EasyToForget/easytoforget.github.io/master/2017/08/05/android-activity-task-stack-manager/02.jpg" alt="image"></center>
 
 
 <h4 id="初始化-List"><a href="#初始化-List" class="headerlink" title="初始化 List"></a>初始化 List</h4><blockquote>
