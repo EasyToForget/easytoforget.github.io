@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Microsoft YaHei:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="前言最近在写 Notification 的 Demo，梳理 Notification 的各种样式以及点击 Notification 启动 Activity 的各种方式。所有的 app 点击通知栏启动 Activity 的方式不外乎以下三种：
+
+如果要启动的 app 已经被杀掉，则启动主界面，否则启动栈顶的 Activity；
+启动特定的 Activity，不管当前 app 有没有被杀掉，点击后退键">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 全局管理 Activity 栈">
+<meta property="og:url" content="https://github.com/EasyToForget/2017/08/05/android-activity-task-stack-manager/index.html">
+<meta property="og:site_name" content="GitHub">
+<meta property="og:description" content="前言最近在写 Notification 的 Demo，梳理 Notification 的各种样式以及点击 Notification 启动 Activity 的各种方式。所有的 app 点击通知栏启动 Activity 的方式不外乎以下三种：
+
+如果要启动的 app 已经被杀掉，则启动主界面，否则启动栈顶的 Activity；
+启动特定的 Activity，不管当前 app 有没有被杀掉，点击后退键">
+<meta property="og:image" content="https://github.com/EasyToForget/EasyToForget/2017/08/05/android-activity-task-stack-manager/">
+<meta property="og:image" content="https://github.com/EasyToForget/EasyToForget/2017/08/05/android-activity-task-stack-manager/">
+<meta property="og:updated_time" content="2017-08-05T09:07:26.663Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 全局管理 Activity 栈">
+<meta name="twitter:description" content="前言最近在写 Notification 的 Demo，梳理 Notification 的各种样式以及点击 Notification 启动 Activity 的各种方式。所有的 app 点击通知栏启动 Activity 的方式不外乎以下三种：
+
+如果要启动的 app 已经被杀掉，则启动主界面，否则启动栈顶的 Activity；
+启动特定的 Activity，不管当前 app 有没有被杀掉，点击后退键">
+<meta name="twitter:image" content="https://github.com/EasyToForget/EasyToForget/2017/08/05/android-activity-task-stack-manager/">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/EasyToForget/2017/08/05/android-activity-task-stack-manager/"/>
+
+
+
+
+
+  <title>Android 全局管理 Activity 栈 | GitHub</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">GitHub</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-github">
+          <a href="https://github.com/EasyToForget" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-github"></i> <br />
+            
+            交友
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/EasyToForget/2017/08/05/android-activity-task-stack-manager/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Smile Wei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/android-nougat.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GitHub">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android 全局管理 Activity 栈</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-05T13:04:06+08:00">
+                2017-08-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近在写 Notification 的 Demo，梳理 Notification 的各种样式以及点击 Notification 启动 Activity 的各种方式。<br>所有的 app 点击通知栏启动 Activity 的方式不外乎以下三种：</p>
+<ul>
+<li>如果要启动的 app 已经被杀掉，则启动主界面，否则启动栈顶的 Activity；</li>
+<li>启动特定的 Activity，不管当前 app 有没有被杀掉，点击后退键后返回到当前 app 的主界面，例如微信、QQ等等；</li>
+<li>启动特定的 Activity，启动前判断，如果当前程序没有被杀掉且除了当前被启动的 Activity 外至少有一个 Activity 没有被 finish，点击后退键则返回到之前栈顶的 Activity；如果当前程序被杀掉或之前任务栈没有 Activity，点击后退键则返回到当前 app 的主界面，例如网易云音乐。</li>
+</ul>
+<a id="more"></a>
+<p>上面的第三种启动方式需要判断 app 中是否有暂时没有被 finish 的 Activity。<br>很遗憾，Google 官方并没有给我们提供类似的方法去做判断，但这不妨碍我们自己去深究这个问题，这个问题就要牵涉到 app 的 Activity 管理。</p>
+<h3 id="之前我们是如何实现的？"><a href="#之前我们是如何实现的？" class="headerlink" title="之前我们是如何实现的？"></a>之前我们是如何实现的？</h3><p>我刚开始做项目的时候，管理 Activity 的方式是在 BaseActivity 中维护 Activity 的 List，在 OnCreate() 中 onDestroy() 调用 add 和 remove ，但是如果 Activity 没有继承封装的 BaseActivity，那每个 Activity 就都要在 onCreate() 中写维护 BaseActivity 中的 List 的代码，同时当 Activity 销毁时，也要从 List 中将此 Activity 移除等等，这样搞下来，一旦 Activity 特别多的时候，说不定哪次就忘了，出了问题了不好追踪。</p>
+<h3 id="那应该如何解决？"><a href="#那应该如何解决？" class="headerlink" title="那应该如何解决？"></a>那应该如何解决？</h3><center><img src="/EasyToForget/2017/08/05/android-activity-task-stack-manager/" alt="Alt text"></center><br><strong>喜大普奔。</strong><br>Google 亲大爷知道我们想要什么，想什么来什么，一次一次的给 Android 搬砖工们带来了一个又一个的福音。<br>这不，从 API 14 开始，Application 中多了一个方法：<strong>registerActivityLifecycleCallbacks</strong><br><br><br>顾名思义，注册 Activity 生命周期回调，可以全局监听 Activity 的生命周期。因此我们可以从 Application 中全局监听所有&gt;Activity 并对其进行管理。<br><br><br><center><img src="/EasyToForget/2017/08/05/android-activity-task-stack-manager/" alt="Alt text"></center>
+
+
+<h4 id="初始化-List"><a href="#初始化-List" class="headerlink" title="初始化 List"></a>初始化 List</h4><blockquote>
+<p>private List<activity> list = Collections.synchronizedList(new LinkedList<activity>());</activity></activity></p>
+</blockquote>
+<h4 id="添加-Activity"><a href="#添加-Activity" class="headerlink" title="添加 Activity"></a>添加 Activity</h4><pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">addActivity</span><span class="token punctuation">(</span>Activity activity<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>activity <span class="token operator">==</span> null<span class="token punctuation">)</span>
+            <span class="token keyword">return</span><span class="token punctuation">;</span>
+        list<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>activity<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="删除-Activity"><a href="#删除-Activity" class="headerlink" title="删除 Activity"></a>删除 Activity</h4><pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">removeActivity</span><span class="token punctuation">(</span>Activity activity<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>activity <span class="token operator">==</span> null<span class="token punctuation">)</span>
+            <span class="token keyword">return</span><span class="token punctuation">;</span>
+        list<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span>activity<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="注册回调"><a href="#注册回调" class="headerlink" title="注册回调"></a>注册回调</h4><p>在回调的 onActivityCreated() 方法中添加 Activity，在 onActivityDestroyed() 方法中删除 Activity</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">registerActivityListener</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">registerActivityLifecycleCallbacks</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ActivityLifecycleCallbacks</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token annotation punctuation">@Override</span>
+            <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">onActivityCreated</span><span class="token punctuation">(</span>Activity activity<span class="token punctuation">,</span> Bundle savedInstanceState<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token function">addActivity</span><span class="token punctuation">(</span>activity<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+
+            <span class="token annotation punctuation">@Override</span>
+            <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">onActivityStarted</span><span class="token punctuation">(</span>Activity activity<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+            <span class="token punctuation">}</span>
+
+            <span class="token annotation punctuation">@Override</span>
+            <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">onActivityResumed</span><span class="token punctuation">(</span>Activity activity<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+            <span class="token punctuation">}</span>
+
+            <span class="token annotation punctuation">@Override</span>
+            <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">onActivityPaused</span><span class="token punctuation">(</span>Activity activity<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+            <span class="token punctuation">}</span>
+
+            <span class="token annotation punctuation">@Override</span>
+            <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">onActivityStopped</span><span class="token punctuation">(</span>Activity activity<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+            <span class="token punctuation">}</span>
+
+            <span class="token annotation punctuation">@Override</span>
+            <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">onActivitySaveInstanceState</span><span class="token punctuation">(</span>Activity activity<span class="token punctuation">,</span> Bundle outState<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+            <span class="token punctuation">}</span>
+
+            <span class="token annotation punctuation">@Override</span>
+            <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">onActivityDestroyed</span><span class="token punctuation">(</span>Activity activity<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token function">removeActivity</span><span class="token punctuation">(</span>activity<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="判断"><a href="#判断" class="headerlink" title="判断"></a>判断</h4><pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">isAllActivityFinished</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> list <span class="token operator">==</span> null <span class="token operator">||</span> list<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<blockquote>
+<p>最后别忘了在 AndroidManifest.xml 中设置 Application 的 name。<br>你也可以获取栈顶 Acitivty以及 finish 某个特定的 Activity 等等。<br>详见：<a href="https://github.com/EasyToForget/NotificationDemo/blob/master/app/src/main/java/com/smile/notificationdemo/app/DemoApplication.java">NotificationDemo</a></p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+<div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/wechat.jpg" alt="Smile Wei wechat" style="width: 200px; max-width: 100%;"/>
+    <div>请扫码关注我的微信公众号</div>
+</div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/31/java-map-set/" rel="next" title="java 集合类之 Map 和 Set">
+                <i class="fa fa-chevron-left"></i> java 集合类之 Map 和 Set
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/android-nougat.png"
+               alt="Smile Wei" />
+          <p class="site-author-name" itemprop="name">Smile Wei</p>
+           
+              <p class="site-description motion-element" itemprop="description">Love Android, Love Google.</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#之前我们是如何实现的？"><span class="nav-number">1.1.</span> <span class="nav-text">之前我们是如何实现的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#那应该如何解决？"><span class="nav-number">1.2.</span> <span class="nav-text">那应该如何解决？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#初始化-List"><span class="nav-number">1.2.1.</span> <span class="nav-text">初始化 List</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加-Activity"><span class="nav-number">1.2.2.</span> <span class="nav-text">添加 Activity</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除-Activity"><span class="nav-number">1.2.3.</span> <span class="nav-text">删除 Activity</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注册回调"><span class="nav-number">1.2.4.</span> <span class="nav-text">注册回调</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#判断"><span class="nav-number">1.2.5.</span> <span class="nav-text">判断</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Smile Wei</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

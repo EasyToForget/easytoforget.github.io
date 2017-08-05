@@ -275,6 +275,127 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/EasyToForget/2017/08/05/android-activity-task-stack-manager/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Smile Wei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/android-nougat.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GitHub">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/05/android-activity-task-stack-manager/" itemprop="url">Android 全局管理 Activity 栈</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-05T13:04:06+08:00">
+                2017-08-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近在写 Notification 的 Demo，梳理 Notification 的各种样式以及点击 Notification 启动 Activity 的各种方式。<br>所有的 app 点击通知栏启动 Activity 的方式不外乎以下三种：</p>
+<ul>
+<li>如果要启动的 app 已经被杀掉，则启动主界面，否则启动栈顶的 Activity；</li>
+<li>启动特定的 Activity，不管当前 app 有没有被杀掉，点击后退键后返回到当前 app 的主界面，例如微信、QQ等等；</li>
+<li>启动特定的 Activity，启动前判断，如果当前程序没有被杀掉且除了当前被启动的 Activity 外至少有一个 Activity 没有被 finish，点击后退键则返回到之前栈顶的 Activity；如果当前程序被杀掉或之前任务栈没有 Activity，点击后退键则返回到当前 app 的主界面，例如网易云音乐。</li>
+</ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/08/05/android-activity-task-stack-manager/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://github.com/EasyToForget/2017/07/31/java-map-set/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -898,7 +1019,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
