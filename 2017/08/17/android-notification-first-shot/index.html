@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Microsoft YaHei:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="Notification 是 Android 系统中一个特别特别重要的机制，它可以让你在不打开 app 的情况下就可以便捷的查看消息、新闻、通知等等。我个人认为 Android 比 iOS 好用的一个很重要的地方就是通知，嗯，一定是这样的。
+
+比如下图：
+
+
+当一个app收到推送通知后，会在状态栏显示该 app 的 logo，这样当你过段时间查看手机的时候不会遗漏重要的消息。
+
+
+
+微信：别人给你">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Notifications 百发百中之第一发">
+<meta property="og:url" content="https://github.com/EasyToForget/2017/08/17/android-notification-first-shot/index.html">
+<meta property="og:site_name" content="GitHub">
+<meta property="og:description" content="Notification 是 Android 系统中一个特别特别重要的机制，它可以让你在不打开 app 的情况下就可以便捷的查看消息、新闻、通知等等。我个人认为 Android 比 iOS 好用的一个很重要的地方就是通知，嗯，一定是这样的。
+
+比如下图：
+
+
+当一个app收到推送通知后，会在状态栏显示该 app 的 logo，这样当你过段时间查看手机的时候不会遗漏重要的消息。
+
+
+
+微信：别人给你">
+<meta property="og:image" content="https://github.com/EasyToForget/EasyToForget/2017/08/17/android-notification-first-shot/notification06.png">
+<meta property="og:image" content="https://github.com/EasyToForget/EasyToForget/2017/08/17/android-notification-first-shot/notification_status_bar.png">
+<meta property="og:image" content="https://github.com/EasyToForget/EasyToForget/2017/08/17/android-notification-first-shot/notification1.png">
+<meta property="og:image" content="https://github.com/EasyToForget/EasyToForget/2017/08/17/android-notification-first-shot/notification01.png">
+<meta property="og:image" content="https://github.com/EasyToForget/EasyToForget/2017/08/17/android-notification-first-shot/notification02.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/EasyToForget/NotificationDemo/master/gif/demo02.gif">
+<meta property="og:image" content="https://github.com/EasyToForget/EasyToForget/2017/08/17/android-notification-first-shot/notification03.png">
+<meta property="og:image" content="https://github.com/EasyToForget/EasyToForget/2017/08/17/android-notification-first-shot/notification04.png">
+<meta property="og:image" content="https://github.com/EasyToForget/EasyToForget/2017/08/17/android-notification-first-shot/notification05.png">
+<meta property="og:image" content="https://github.com/EasyToForget/EasyToForget/2017/08/17/android-notification-first-shot/notification07.jpg">
+<meta property="og:updated_time" content="2017-08-18T11:19:22.867Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android Notifications 百发百中之第一发">
+<meta name="twitter:description" content="Notification 是 Android 系统中一个特别特别重要的机制，它可以让你在不打开 app 的情况下就可以便捷的查看消息、新闻、通知等等。我个人认为 Android 比 iOS 好用的一个很重要的地方就是通知，嗯，一定是这样的。
+
+比如下图：
+
+
+当一个app收到推送通知后，会在状态栏显示该 app 的 logo，这样当你过段时间查看手机的时候不会遗漏重要的消息。
+
+
+
+微信：别人给你">
+<meta name="twitter:image" content="https://github.com/EasyToForget/EasyToForget/2017/08/17/android-notification-first-shot/notification06.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/EasyToForget/2017/08/17/android-notification-first-shot/"/>
+
+
+
+
+
+  <title>Android Notifications 百发百中之第一发 | GitHub</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">GitHub</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-github">
+          <a href="https://github.com/EasyToForget" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-github"></i> <br />
+            
+            交友
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/EasyToForget/2017/08/17/android-notification-first-shot/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Smile Wei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/android-nougat.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GitHub">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android Notifications 百发百中之第一发</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-17T16:44:40+08:00">
+                2017-08-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>Notification</strong> 是 Android 系统中一个<strong>特别特别</strong>重要的机制，它可以让你在不打开 app 的情况下就可以便捷的查看消息、新闻、通知等等。<br>我个人认为 Android 比 iOS 好用的一个很重要的地方就是通知，嗯，一定是这样的。</p>
+<p><img src="/EasyToForget/2017/08/17/android-notification-first-shot/notification06.png"></p>
+<p>比如下图：</p>
+<p><img src="/EasyToForget/2017/08/17/android-notification-first-shot/notification_status_bar.png"></p>
+<ul>
+<li>当一个app收到推送通知后，会在状态栏显示该 app 的 logo，这样当你过段时间查看手机的时候不会遗漏重要的消息。</li>
+</ul>
+<p><img src="/EasyToForget/2017/08/17/android-notification-first-shot/notification1.png"></p>
+<ul>
+<li>微信：别人给你发消息，你不用打开微信就可以看到，还可以直接回复（当然了，微信没有去实现这个功能）；</li>
+<li>网易新闻：通知栏可以直接看到新闻标题和一部分内容，如果你不关心详情的话，看看通知栏就可以了；</li>
+<li>豆瓣：会给你推送觉得你感兴趣的东西，如果你想看直接左滑或右滑删除，想看的话点击打开就可以；</li>
+<li>网易云音乐：常驻通知栏，你可以看到当前正在播放的歌曲，可以点击暂停、下一首、上一首等等。</li>
+</ul>
+<h3 id="Notification-主要样式"><a href="#Notification-主要样式" class="headerlink" title="Notification 主要样式"></a>Notification 主要样式</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">样式</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Normal</td>
+<td style="text-align:left">标准通知，显示标题和单行内容</td>
+</tr>
+<tr>
+<td style="text-align:left">BigText</td>
+<td style="text-align:left">多行文字，显示标题和多行内容</td>
+</tr>
+<tr>
+<td style="text-align:left">BigPicture</td>
+<td style="text-align:left">显示文字和图片，显示标题、内容和图片</td>
+</tr>
+<tr>
+<td style="text-align:left">Inbox</td>
+<td style="text-align:left">邮件，显示标题和多行邮件内容</td>
+</tr>
+<tr>
+<td style="text-align:left">Messaging</td>
+<td style="text-align:left">消息，显示和朋友的对话内容</td>
+</tr>
+<tr>
+<td style="text-align:left">Media</td>
+<td style="text-align:left">音乐播放器，显示常驻通知栏，可以执行各种操作</td>
+</tr>
+<tr>
+<td style="text-align:left">Custom</td>
+<td style="text-align:left">自定义，自定义 layout 的通知栏</td>
+</tr>
+</tbody>
+</table>
+<h4 id="Normal-Notification"><a href="#Normal-Notification" class="headerlink" title="Normal Notification"></a>Normal Notification</h4><p><img src="/EasyToForget/2017/08/17/android-notification-first-shot/notification01.png"><br><img src="/EasyToForget/2017/08/17/android-notification-first-shot/notification02.png"></p>
+<p>图中的<strong>1</strong>是 small icon,通过下列方法来设置：</p>
+<pre class="line-numbers language-java"><code class="language-java">    builder<span class="token punctuation">.</span><span class="token function">setSmallIcon</span><span class="token punctuation">(</span>R<span class="token punctuation">.</span>drawable<span class="token punctuation">.</span>small_icon<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>图中的<strong>2</strong>是 app name,通过下列方法来设置：</p>
+<pre class="line-numbers language-java"><code class="language-java">    builder<span class="token punctuation">.</span><span class="token function">setTicker</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span><span class="token function">getString</span><span class="token punctuation">(</span>R<span class="token punctuation">.</span>string<span class="token punctuation">.</span>app_name<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>图中的<strong>3</strong>是 show time,通过下列方法来设置：</p>
+<pre class="line-numbers language-java"><code class="language-java">    builder<span class="token punctuation">.</span><span class="token function">setWhen</span><span class="token punctuation">(</span>System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>图中的<strong>4</strong>是 content title,通过下列方法来设置：</p>
+<pre class="line-numbers language-java"><code class="language-java">    builder<span class="token punctuation">.</span><span class="token function">setContentTitle</span><span class="token punctuation">(</span><span class="token string">"标题"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>图中的<strong>5</strong>是 content text,通过下列方法来设置：</p>
+<pre class="line-numbers language-java"><code class="language-java">    builder<span class="token punctuation">.</span><span class="token function">setContentText</span><span class="token punctuation">(</span><span class="token string">"内容"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>图中的<strong>6</strong>是 large icon,通过下列方法来设置：</p>
+<pre class="line-numbers language-java"><code class="language-java">    builder<span class="token punctuation">.</span><span class="token function">setLargeIcon</span><span class="token punctuation">(</span>BitmapFactory<span class="token punctuation">.</span><span class="token function">decodeResource</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span><span class="token function">getResources</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> R<span class="token punctuation">.</span>drawable<span class="token punctuation">.</span>large_icon<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p><img src="https://raw.githubusercontent.com/EasyToForget/NotificationDemo/master/gif/demo02.gif"></p>
+<p>下面是创建一个标准的通知栏的代码：</p>
+<pre class="line-numbers language-java"><code class="language-java">        Intent intent <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Intent</span><span class="token punctuation">(</span>Intent<span class="token punctuation">.</span>ACTION_MAIN<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        intent<span class="token punctuation">.</span><span class="token function">addCategory</span><span class="token punctuation">(</span>Intent<span class="token punctuation">.</span>CATEGORY_LAUNCHER<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        intent<span class="token punctuation">.</span><span class="token function">setClass</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> MainActivity<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        intent<span class="token punctuation">.</span><span class="token function">setFlags</span><span class="token punctuation">(</span>Intent<span class="token punctuation">.</span>FLAG_ACTIVITY_NEW_TASK <span class="token operator">|</span> Intent<span class="token punctuation">.</span>FLAG_ACTIVITY_RESET_TASK_IF_NEEDED<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        PendingIntent pendingIntent <span class="token operator">=</span> PendingIntent<span class="token punctuation">.</span><span class="token function">getActivity</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span> SystemClock<span class="token punctuation">.</span><span class="token function">uptimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> intent<span class="token punctuation">,</span> PendingIntent<span class="token punctuation">.</span>FLAG_UPDATE_CURRENT<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        NotificationCompat<span class="token punctuation">.</span>Builder builder <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">NotificationCompat<span class="token punctuation">.</span>Builder</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">//设置通知栏大图标，上图中右边的大图</span>
+        builder<span class="token punctuation">.</span><span class="token function">setLargeIcon</span><span class="token punctuation">(</span>BitmapFactory<span class="token punctuation">.</span><span class="token function">decodeResource</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span><span class="token function">getResources</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> R<span class="token punctuation">.</span>drawable<span class="token punctuation">.</span>large_icon<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token comment" spellcheck="true">// 设置状态栏和通知栏小图标</span>
+                <span class="token punctuation">.</span><span class="token function">setSmallIcon</span><span class="token punctuation">(</span>R<span class="token punctuation">.</span>drawable<span class="token punctuation">.</span>small_icon<span class="token punctuation">)</span>
+                <span class="token comment" spellcheck="true">// 设置通知栏应用名称</span>
+                <span class="token punctuation">.</span><span class="token function">setTicker</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span><span class="token function">getString</span><span class="token punctuation">(</span>R<span class="token punctuation">.</span>string<span class="token punctuation">.</span>app_name<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token comment" spellcheck="true">// 设置通知栏显示时间</span>
+                <span class="token punctuation">.</span><span class="token function">setWhen</span><span class="token punctuation">(</span>System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token comment" spellcheck="true">// 设置通知栏标题</span>
+                <span class="token punctuation">.</span><span class="token function">setContentTitle</span><span class="token punctuation">(</span><span class="token string">"标题"</span><span class="token punctuation">)</span>
+                <span class="token comment" spellcheck="true">// 设置通知栏内容</span>
+                <span class="token punctuation">.</span><span class="token function">setContentText</span><span class="token punctuation">(</span><span class="token string">"内容"</span><span class="token punctuation">)</span>
+                <span class="token comment" spellcheck="true">// 设置通知栏点击后是否清除，设置为true，当点击此通知栏后，它会自动消失</span>
+                <span class="token punctuation">.</span><span class="token function">setAutoCancel</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span>
+                <span class="token comment" spellcheck="true">// 将Ongoing设为true 那么左滑右滑将不能删除通知栏  </span>
+                <span class="token comment" spellcheck="true">//.setOngoing(true);  </span>
+                <span class="token comment" spellcheck="true">// 设置通知栏点击意图</span>
+                <span class="token punctuation">.</span><span class="token function">setContentIntent</span><span class="token punctuation">(</span>pendingIntent<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token comment" spellcheck="true">// 铃声、闪光、震动均系统默认</span>
+                <span class="token punctuation">.</span><span class="token function">setDefaults</span><span class="token punctuation">(</span>Notification<span class="token punctuation">.</span>DEFAULT_ALL<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token comment" spellcheck="true">// 设置为public后，通知栏将在锁屏界面显示</span>
+                <span class="token punctuation">.</span><span class="token function">setVisibility</span><span class="token punctuation">(</span>NotificationCompat<span class="token punctuation">.</span>VISIBILITY_PUBLIC<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token comment" spellcheck="true">// 从Android4.1开始，可以通过以下方法，设置通知栏的优先级，优先级越高的，通知排的越靠前，优先级低的，不会在手机最顶部的状态栏显示图标</span>
+                <span class="token comment" spellcheck="true">// 设置优先级为PRIORITY_MAX，将会在手机顶部显示通知栏</span>
+                <span class="token punctuation">.</span><span class="token function">setPriority</span><span class="token punctuation">(</span>NotificationCompat<span class="token punctuation">.</span>PRIORITY_MAX<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        NotificationManager notificationManager <span class="token operator">=</span> <span class="token punctuation">(</span>NotificationManager<span class="token punctuation">)</span> context<span class="token punctuation">.</span><span class="token function">getSystemService</span><span class="token punctuation">(</span>Context<span class="token punctuation">.</span>NOTIFICATION_SERVICE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        notificationManager<span class="token punctuation">.</span><span class="token function">notify</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span> System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> builder<span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="点击消失"><a href="#点击消失" class="headerlink" title="点击消失"></a>点击消失</h4><p>如果你想点击通知后，该通知自动消失，那么你就需要调用setAutoCancel(boolean b)这个方法，并将其设置为true；</p>
+<h4 id="设置铃声、震动、闪光效果"><a href="#设置铃声、震动、闪光效果" class="headerlink" title="设置铃声、震动、闪光效果"></a>设置铃声、震动、闪光效果</h4><p>setDefaults(Notification.DEFAULT_ALL) 表示系统系统默认的铃声、震动和闪光效果。<br>举例，自定义通知铃声</p>
+<ul>
+<li>注释setDefaults(Notification.DEFAULT_ALL)方法；</li>
+<li>调用builder.setSound(Uri.parse(“android.resource://“ + context.getPackageName() + “/“ + R.raw.message));</li>
+<li>你还可以通过setVibrate和setLights设置震动和闪光效果</li>
+</ul>
+<h4 id="锁屏显示"><a href="#锁屏显示" class="headerlink" title="锁屏显示"></a>锁屏显示</h4><p> <img src="/EasyToForget/2017/08/17/android-notification-first-shot/notification03.png"></p>
+<p>如上图所示，如果你想在锁屏情况下显示通知，则需要调用setVisibility(int visibility)，并将其设置为NotificationCompat.VISIBILITY_PUBLIC</p>
+<h4 id="头部显示"><a href="#头部显示" class="headerlink" title="头部显示"></a>头部显示</h4><p> <img src="/EasyToForget/2017/08/17/android-notification-first-shot/notification04.png"></p>
+<p>如上图所示，如果你想通知显示在手机头部，比如来电时的通知，那么你就需要调用.setPriority(int pri)，并将其设置为NotificationCompat.PRIORITY_MAX</p>
+<h4 id="禁止删除"><a href="#禁止删除" class="headerlink" title="禁止删除"></a>禁止删除</h4><p>如果你想让你的通知栏常驻，用户无法滑动删除，也不能通过手机的清除键删除，类似于网易云音乐等app的通知栏，那么你可以设置setOngoing方法，也设为true，这样，通知栏只能通过代码调用cancel方法才能消失；</p>
+<h4 id="通知点击事件"><a href="#通知点击事件" class="headerlink" title="通知点击事件"></a>通知点击事件</h4><p>使用 build.setContentIntent(PendingIntent intent) 设置点击事件。<br>先看官方的代码吧：</p>
+<pre class="line-numbers language-java"><code class="language-java">        <span class="token comment" spellcheck="true">/**
+         * Supply a {@link PendingIntent} to send when the notification is clicked.
+         * If you do not supply an intent, you can now add PendingIntents to individual
+         * views to be launched when clicked by calling {@link RemoteViews#setOnClickPendingIntent
+         * RemoteViews.setOnClickPendingIntent(int,PendingIntent)}.  Be sure to
+         * read {@link Notification#contentIntent Notification.contentIntent} for
+         * how to correctly use this.
+         */</span>
+        <span class="token keyword">public</span> Builder <span class="token function">setContentIntent</span><span class="token punctuation">(</span>PendingIntent intent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            mContentIntent <span class="token operator">=</span> intent<span class="token punctuation">;</span>
+            <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>从代码注释可以看出，当通知被点击的时候，系统会发送一个 PendingIntent。<br>PendingIntent：等待的，未决定的Intent。</p>
+<p>要获取 PendingIntent 对象，有以下静态方法：</p>
+<ul>
+<li>getActivity(Context context, int requestCode, Intent intent, int flags)</li>
+<li>getActivities(Context context, int requestCode, Intent[] intents, int flags)</li>
+<li>getBroadcast(Context context, int requestCode, Intent intent, int flags)</li>
+<li>getService(Context context, int requestCode, Intent intent, int flags)  </li>
+</ul>
+<p>分别对应着Intent的3个行为，跳转到一个或几个activity组件、打开一个广播组件和打开一个服务组件。<br>PendingIntent 是一种特殊的 Intent。主要的区别在于Intent的执行立刻的，而 PendingIntent 的执行不是立刻的。<br>PendingIntent 执行的操作实质上是参数传进来的Intent的操作，但是使用 PendingIntent 的目的在于它所包含的Intent的操作的执行是需要满足某些条件的。</p>
+<p>一般情况下，点击通知都是打开特定的 Activity，你可以直接使用 getActivity 或 getActivities，也可以使用 getBroadcast 或 getService，然后在广播或服务中做一些启动 Activity 的操作。</p>
+<p>所有的 app 点击通知栏启动 Activity 的方式不外乎以下三种：</p>
+<ul>
+<li>如果要启动的 app 已经被杀掉，则启动主界面，否则启动栈顶的 Activity，使用方式如下：</li>
+</ul>
+<pre class="line-numbers language-java"><code class="language-java">        Intent intent <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Intent</span><span class="token punctuation">(</span>Intent<span class="token punctuation">.</span>ACTION_MAIN<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        intent<span class="token punctuation">.</span><span class="token function">addCategory</span><span class="token punctuation">(</span>Intent<span class="token punctuation">.</span>CATEGORY_LAUNCHER<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        intent<span class="token punctuation">.</span><span class="token function">setClass</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> MainActivity<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        intent<span class="token punctuation">.</span><span class="token function">setFlags</span><span class="token punctuation">(</span>Intent<span class="token punctuation">.</span>FLAG_ACTIVITY_NEW_TASK <span class="token operator">|</span> Intent<span class="token punctuation">.</span>FLAG_ACTIVITY_RESET_TASK_IF_NEEDED<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        PendingIntent pendingIntent <span class="token operator">=</span> PendingIntent<span class="token punctuation">.</span><span class="token function">getActivity</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span> SystemClock<span class="token punctuation">.</span><span class="token function">uptimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> intent<span class="token punctuation">,</span> PendingIntent<span class="token punctuation">.</span>FLAG_UPDATE_CURRENT<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>启动特定的 Activity，不管当前 app 有没有被杀掉，点击后退键后返回到当前 app 的主界面，例如微信、QQ等等，使用方式有两种：<br><strong>使用 TaskStackBuilder</strong></li>
+</ul>
+<pre class="line-numbers language-java"><code class="language-java">        Intent intent <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Intent</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        intent<span class="token punctuation">.</span><span class="token function">setFlags</span><span class="token punctuation">(</span>Intent<span class="token punctuation">.</span>FLAG_ACTIVITY_NEW_TASK <span class="token operator">|</span> Intent<span class="token punctuation">.</span>FLAG_ACTIVITY_SINGLE_TOP <span class="token operator">|</span>  Intent<span class="token punctuation">.</span>FLAG_ACTIVITY_CLEAR_TOP<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        intent<span class="token punctuation">.</span><span class="token function">setClass</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> ThirdActivity<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        TaskStackBuilder stackBuilder <span class="token operator">=</span> TaskStackBuilder<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        stackBuilder<span class="token punctuation">.</span><span class="token function">addParentStack</span><span class="token punctuation">(</span>ThirdActivity<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        stackBuilder<span class="token punctuation">.</span><span class="token function">addNextIntent</span><span class="token punctuation">(</span>intent<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        PendingIntent pendingIntent <span class="token operator">=</span> stackBuilder<span class="token punctuation">.</span><span class="token function">getPendingIntent</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span> SystemClock<span class="token punctuation">.</span><span class="token function">uptimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> PendingIntent<span class="token punctuation">.</span>FLAG_UPDATE_CURRENT<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p> <strong>使用 getActivities</strong></p>
+<pre class="line-numbers language-java"><code class="language-java">        Intent intent <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Intent</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> MainActivity<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        intent<span class="token punctuation">.</span><span class="token function">setFlags</span><span class="token punctuation">(</span>Intent<span class="token punctuation">.</span>FLAG_ACTIVITY_NEW_TASK <span class="token operator">|</span> Intent<span class="token punctuation">.</span>FLAG_ACTIVITY_SINGLE_TOP <span class="token operator">|</span> Intent<span class="token punctuation">.</span>FLAG_ACTIVITY_CLEAR_TOP<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Intent secondIntent <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Intent</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> SecondActivity<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Intent<span class="token punctuation">[</span><span class="token punctuation">]</span> intents <span class="token operator">=</span> <span class="token punctuation">{</span>intent<span class="token punctuation">,</span> secondIntent<span class="token punctuation">}</span><span class="token punctuation">;</span>
+        PendingIntent pendingIntent <span class="token operator">=</span> PendingIntent<span class="token punctuation">.</span><span class="token function">getActivities</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span> SystemClock<span class="token punctuation">.</span><span class="token function">uptimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> intents<span class="token punctuation">,</span> PendingIntent<span class="token punctuation">.</span>FLAG_UPDATE_CURRENT<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>启动特定的 Activity，启动前判断，如果当前程序没有被杀掉且除了当前被启动的 Activity 外至少有一个 Activity 没有被 finish，点击后退键则返回到之前栈顶的 Activity；如果当前程序被杀掉或之前任务栈没有 Activity，点击后退键则返回到当前 app 的主界面，例如网易云音乐。</li>
+<li><pre class="line-numbers language-java"><code class="language-java">     <span class="token keyword">if</span> <span class="token punctuation">(</span>Util<span class="token punctuation">.</span><span class="token function">isAppAlive</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> BuildConfig<span class="token punctuation">.</span>APPLICATION_ID<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span>DemoApplication<span class="token punctuation">.</span><span class="token function">getInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">isAllActivityFinished</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+         Intent intent <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Intent</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+         intent<span class="token punctuation">.</span><span class="token function">setClass</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> ThirdActivity<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+         intent<span class="token punctuation">.</span><span class="token function">setFlags</span><span class="token punctuation">(</span>Intent<span class="token punctuation">.</span>FLAG_ACTIVITY_NEW_TASK <span class="token operator">|</span> Intent<span class="token punctuation">.</span>FLAG_ACTIVITY_CLEAR_TOP<span class="token punctuation">)</span><span class="token punctuation">;</span>
+         <span class="token function">startActivity</span><span class="token punctuation">(</span>intent<span class="token punctuation">)</span><span class="token punctuation">;</span>
+     <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+         Intent intent <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Intent</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> MainActivity<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+         intent<span class="token punctuation">.</span><span class="token function">setFlags</span><span class="token punctuation">(</span>Intent<span class="token punctuation">.</span>FLAG_ACTIVITY_NEW_TASK <span class="token operator">|</span> Intent<span class="token punctuation">.</span>FLAG_ACTIVITY_SINGLE_TOP <span class="token operator">|</span> Intent<span class="token punctuation">.</span>FLAG_ACTIVITY_CLEAR_TOP<span class="token punctuation">)</span><span class="token punctuation">;</span>
+         Intent secondIntent <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Intent</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> SecondActivity<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+         Intent<span class="token punctuation">[</span><span class="token punctuation">]</span> intents <span class="token operator">=</span> <span class="token punctuation">{</span>intent<span class="token punctuation">,</span> secondIntent<span class="token punctuation">}</span><span class="token punctuation">;</span>
+         <span class="token function">startActivities</span><span class="token punctuation">(</span>intents<span class="token punctuation">)</span><span class="token punctuation">;</span>
+     <span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h5 id="获取-PendingIntent-对象的第四个参数为-flags，一般-flags-有5种选择："><a href="#获取-PendingIntent-对象的第四个参数为-flags，一般-flags-有5种选择：" class="headerlink" title="获取 PendingIntent 对象的第四个参数为 flags，一般 flags 有5种选择："></a>获取 PendingIntent 对象的第四个参数为 flags，一般 flags 有5种选择：</h5></li>
+<li>FLAG_ONE_SHOT：表明这里构建的 PendingIntent 只能使用一次，使用后将被自动删除，再次使用将会报错；</li>
+<li>FLAG_NO_CREATE：如果前一个 PendingIntent 已经不存在了，将不再构建它，直接返回 null；</li>
+<li>FLAG_CANCEL_CURRENT：如果构建的 PendingIntent 已经存在，则取消前一个，重新构建一个；</li>
+<li>FLAG_UPDATE_CURRENT：如果构建的PendingIntent已经存在，那么系统将不会重复创建，只是将他的 intent 中的参数替换；</li>
+<li><p>FLAG_IMMUTABLE 表示这是一个不可变的 PendingIntent。</p>
+<p>通常情况下，我们会使用 <strong>FLAG_UPDATE_CURRENT</strong> 这个 flags 值来构造 PendingIntent，但是使用 FLAG_UPDATE_CURRENT 经常会发生点击通知栏后<br>没有任何响应，时灵时不灵。</p>
+<p><img src="/EasyToForget/2017/08/17/android-notification-first-shot/notification05.png"></p>
+<p>原来使用 FLAG_UPDATE_CURRENT 这个参数后，系统不会重新创建新的 PendingIntent，这样一来，如果你传递的 Intent 的 extra 参数没有变化的话，<br>那么系统就会认为你没有发送新的 PendingIntent，这样就不会重新响应你的点击事件。一般情况下，为了能够区分每次的 PendingIntent 不一样，我们常常会在构造Intent的时候，<br>设置不同的 Action 或 Extra 值，这样一来，即便是使用 FLAG_UPDATE_CURRENT 这个参数，系统也会因为传值参数的变化而去响应每次的点击事件。<br>不过这种解决方法还是很坑爹的，大部分时候我们根本不需要传递额外的 Action 或 Extra 值，这个时候我们只需要把 <strong>PendingIntent.getActivity(context, (int) SystemClock.uptimeMillis(), intent, PendingIntent.FLAG_UPDATE_CURRENT)</strong><br>这个方法中的第一个参数（requestCode）设置成唯一的标识就可以了，可以直接使用</p>
+<blockquote>
+<p>int requestCode = (int) SystemClock.uptimeMillis();  </p>
+</blockquote>
+<p>当然你可以直接使用 <strong>FLAG_CANCEL_CURRENT</strong> 这个 flag，每次都会创建一个新的，那么上面的问题就不存在了。</p>
+</li>
+</ul>
+<p> <img src="/EasyToForget/2017/08/17/android-notification-first-shot/notification07.jpg"></p>
+<blockquote>
+<p>注：判断 APP 是否被杀死和所有的 Activity 是否都被杀死，详见这篇 <a href="https://easytoforget.github.io/2017/08/05/android-activity-task-stack-manager/#more" target="_blank" rel="external">Blog</a> 和 <a href="https://github.com/EasyToForget/NotificationDemo/blob/master/app/src/main/java/com/smile/notificationdemo/utils/Util.java">Demo</a></p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+<div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/wechat.jpg" alt="Smile Wei wechat" style="width: 200px; max-width: 100%;"/>
+    <div>请扫码关注我的微信公众号</div>
+</div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/08/okttp-integration/" rel="next" title="OkHttp 的简单封装">
+                <i class="fa fa-chevron-left"></i> OkHttp 的简单封装
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/android-nougat.png"
+               alt="Smile Wei" />
+          <p class="site-author-name" itemprop="name">Smile Wei</p>
+           
+              <p class="site-description motion-element" itemprop="description">Love Android, Love Google.</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Notification-主要样式"><span class="nav-number">1.</span> <span class="nav-text">Notification 主要样式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Normal-Notification"><span class="nav-number">1.1.</span> <span class="nav-text">Normal Notification</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#点击消失"><span class="nav-number">1.2.</span> <span class="nav-text">点击消失</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设置铃声、震动、闪光效果"><span class="nav-number">1.3.</span> <span class="nav-text">设置铃声、震动、闪光效果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#锁屏显示"><span class="nav-number">1.4.</span> <span class="nav-text">锁屏显示</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#头部显示"><span class="nav-number">1.5.</span> <span class="nav-text">头部显示</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#禁止删除"><span class="nav-number">1.6.</span> <span class="nav-text">禁止删除</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通知点击事件"><span class="nav-number">1.7.</span> <span class="nav-text">通知点击事件</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#获取-PendingIntent-对象的第四个参数为-flags，一般-flags-有5种选择："><span class="nav-number">1.7.1.</span> <span class="nav-text">获取 PendingIntent 对象的第四个参数为 flags，一般 flags 有5种选择：</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Smile Wei</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
