@@ -127,7 +127,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/EasyToForget/NotificationDemo/master/gif/demo05.gif">
 <meta property="og:image" content="https://raw.githubusercontent.com/EasyToForget/NotificationDemo/master/gif/demo08.gif">
 <meta property="og:image" content="https://raw.githubusercontent.com/EasyToForget/NotificationDemo/master/gif/demo09.gif">
-<meta property="og:updated_time" content="2017-08-22T06:34:15.159Z">
+<meta property="og:updated_time" content="2017-08-22T06:51:12.109Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android Notifications 百发百中之第二发">
 <meta name="twitter:description" content="Android Notifications 百发百中之第一发
@@ -598,11 +598,9 @@ builder<span class="token punctuation">.</span><span class="token function">addA
 builder<span class="token punctuation">.</span><span class="token function">addAction</span><span class="token punctuation">(</span>R<span class="token punctuation">.</span>drawable<span class="token punctuation">.</span>next<span class="token punctuation">,</span> <span class="token string">""</span><span class="token punctuation">,</span> pendingNext<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>如上代码所示，Media 通知的创建和标准通知的创建的唯一区别就在于设置样式。</p>
-<ul>
-<li>style.setShowCancelButton(true)，设置是否显示一个关闭此通知的关闭按钮，在 Adnroid 5.0 之前设置为 true 才会显示，在 5.0 及以上，不管设置为 true 还是 false 均不会显示，也就是说 5.0 及以上没有这个功能，需要通过自定义通知去实现关闭；</li>
-<li>style.setCancelButtonIntent()，设置关闭按钮的点击事件；</li>
-<li>style.setShowActionsInCompactView(0, 1)，设置通知栏收缩时显示的按钮，显示按钮的顺序是通知栏展开时的从左到右，0代表只显示第一个，(0, 1)代表显示第一个和第二个。</li>
-</ul>
+<blockquote>
+<p>style.setShowCancelButton(true)，设置是否显示一个关闭此通知的关闭按钮，在 Adnroid 5.0 之前设置为 true 才会显示，在 5.0 及以上，不管设置为 true 还是 false 均不会显示，也就是说 5.0 及以上没有这个功能，需要通过自定义通知去实现关闭；<br>style.setCancelButtonIntent()，设置关闭按钮的点击事件；<br>style.setShowActionsInCompactView(0, 1)，设置通知栏收缩时显示的按钮，显示按钮的顺序是通知栏展开时的从左到右，0代表只显示第一个，(0, 1)代表显示第一个和第二个。</p>
+</blockquote>
 <p><strong>使用 builder.setStyle() 设置样式之后，我们就可以愉快的显示音乐播放器了。</strong></p>
 <p><strong>注意</strong>为了保证音乐能够持续的播放，你需要在 Service 中创建 Media 样式的通知栏，通过 <strong>startForeground</strong> 启动通知栏，使得通知栏能够在前台显示，避免被销毁。</p>
 <p>详细的代码请参见<a href="https://github.com/EasyToForget/NotificationDemo">GitHub</a></p>
