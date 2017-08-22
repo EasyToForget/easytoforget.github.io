@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Microsoft YaHei:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="Android Notifications 百发百中之第一发
+第一发主要介绍了 Notifications 中如果创建一个通知，如何设置通知的点击事件，通知的基本操作，如何为通知添加 Action 以及通知的启动和取消。
+第二发主要介绍通知栏的各种样式以及如何设置样式来创建你所需要的通知栏，依然是这个表格：
+
+
+样式
+描述
+
+
+
+
+Normal
+标准通知，显示标题和单行内容
+
+
+BigText
+多">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Notifications 百发百中之第二发">
+<meta property="og:url" content="https://github.com/EasyToForget/2017/08/21/android-notification-second-shot/index.html">
+<meta property="og:site_name" content="GitHub">
+<meta property="og:description" content="Android Notifications 百发百中之第一发
+第一发主要介绍了 Notifications 中如果创建一个通知，如何设置通知的点击事件，通知的基本操作，如何为通知添加 Action 以及通知的启动和取消。
+第二发主要介绍通知栏的各种样式以及如何设置样式来创建你所需要的通知栏，依然是这个表格：
+
+
+样式
+描述
+
+
+
+
+Normal
+标准通知，显示标题和单行内容
+
+
+BigText
+多">
+<meta property="og:image" content="https://github.com/EasyToForget/EasyToForget/2017/08/21/android-notification-second-shot/">
+<meta property="og:image" content="https://raw.githubusercontent.com/EasyToForget/NotificationDemo/master/gif/demo04.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/EasyToForget/NotificationDemo/master/gif/demo07.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/EasyToForget/NotificationDemo/master/gif/demo05.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/EasyToForget/NotificationDemo/master/gif/demo08.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/EasyToForget/NotificationDemo/master/gif/demo09.gif">
+<meta property="og:updated_time" content="2017-08-22T06:12:27.586Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android Notifications 百发百中之第二发">
+<meta name="twitter:description" content="Android Notifications 百发百中之第一发
+第一发主要介绍了 Notifications 中如果创建一个通知，如何设置通知的点击事件，通知的基本操作，如何为通知添加 Action 以及通知的启动和取消。
+第二发主要介绍通知栏的各种样式以及如何设置样式来创建你所需要的通知栏，依然是这个表格：
+
+
+样式
+描述
+
+
+
+
+Normal
+标准通知，显示标题和单行内容
+
+
+BigText
+多">
+<meta name="twitter:image" content="https://github.com/EasyToForget/EasyToForget/2017/08/21/android-notification-second-shot/">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/EasyToForget/2017/08/21/android-notification-second-shot/"/>
+
+
+
+
+
+  <title>Android Notifications 百发百中之第二发 | GitHub</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">GitHub</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-github">
+          <a href="https://github.com/EasyToForget" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-github"></i> <br />
+            
+            交友
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/EasyToForget/2017/08/21/android-notification-second-shot/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Smile Wei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/android-nougat.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GitHub">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android Notifications 百发百中之第二发</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-21T17:51:45+08:00">
+                2017-08-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://easytoforget.github.io/2017/08/17/android-notification-first-shot/" target="_blank" rel="external">Android Notifications 百发百中之第一发</a></p>
+<p>第一发主要介绍了 Notifications 中如果创建一个通知，如何设置通知的点击事件，通知的基本操作，如何为通知添加 Action 以及通知的启动和取消。</p>
+<h5 id="第二发主要介绍通知栏的各种样式以及如何设置样式来创建你所需要的通知栏，依然是这个表格："><a href="#第二发主要介绍通知栏的各种样式以及如何设置样式来创建你所需要的通知栏，依然是这个表格：" class="headerlink" title="第二发主要介绍通知栏的各种样式以及如何设置样式来创建你所需要的通知栏，依然是这个表格："></a>第二发主要介绍通知栏的各种样式以及如何设置样式来创建你所需要的通知栏，依然是这个表格：</h5><table>
+<thead>
+<tr>
+<th style="text-align:left">样式</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Normal</td>
+<td style="text-align:left">标准通知，显示标题和单行内容</td>
+</tr>
+<tr>
+<td style="text-align:left">BigText</td>
+<td style="text-align:left">多行文字，显示标题和多行内容</td>
+</tr>
+<tr>
+<td style="text-align:left">BigPicture</td>
+<td style="text-align:left">显示文字和图片，显示标题、内容和图片</td>
+</tr>
+<tr>
+<td style="text-align:left">Inbox</td>
+<td style="text-align:left">邮件，显示标题和多行邮件内容</td>
+</tr>
+<tr>
+<td style="text-align:left">Messaging</td>
+<td style="text-align:left">消息，显示和朋友的对话内容</td>
+</tr>
+<tr>
+<td style="text-align:left">Media</td>
+<td style="text-align:left">音乐播放器，显示常驻通知栏，可以执行各种操作</td>
+</tr>
+<tr>
+<td style="text-align:left">Custom</td>
+<td style="text-align:left">自定义，自定义 layout 的通知栏</td>
+</tr>
+</tbody>
+</table>
+<center> <img src="/EasyToForget/2017/08/21/android-notification-second-shot/" alt="Alt text"> </center>
+
+<p>在标准通知中，一般情况下通知的标题和内容都只能显示一行，通知内容比较固定，有些时候，一行根本就写不了什么东西，如果想看详情就不得不打开 app，当时就想如果直接在通知上能看到更多的东西该多好啊，然后福利就来了。 Google 你懂的，作为一个世界著名但在中国不存在的公司还是很贴心的，从 <strong>Android 4.1</strong> 开始，<strong>Google</strong> 为通知定义好了各种各样的样式，这样你就不需要去自定义，直接使用样式就可以了，这些样式可以满足我们大部分的需求。所以作为一个 Android 开发者那可真是<strong>痛并快乐着</strong>。怎么痛？呵呵，做过的都知道。</p>
+<h3 id="BigText"><a href="#BigText" class="headerlink" title="BigText"></a>BigText</h3><center><img src="https://raw.githubusercontent.com/EasyToForget/NotificationDemo/master/gif/demo04.gif"></center>
+
+
+<p>如上图所示，你可以点击通知上的向下和向上的箭头来<strong>展开和收缩</strong>多行文字，比如新闻类的 app，你可以设置多行文字显示给用户更多的内容。</p>
+<pre class="line-numbers language-java"><code class="language-java">
+String title <span class="token operator">=</span> <span class="token string">"This is big text title"</span><span class="token punctuation">;</span>
+String text <span class="token operator">=</span> <span class="token string">"A notification is a message you can display "</span> <span class="token operator">+</span>
+              <span class="token string">"to the user outside of your application's normal UI. "</span> <span class="token operator">+</span>
+              <span class="token string">"When you tell the system to issue a notification, "</span> <span class="token operator">+</span>
+              <span class="token string">"it first appears as an icon in the notification area. "</span><span class="token punctuation">;</span>
+NotificationCompat<span class="token punctuation">.</span>BigTextStyle style <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">NotificationCompat<span class="token punctuation">.</span>BigTextStyle</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+style<span class="token punctuation">.</span><span class="token function">setBigContentTitle</span><span class="token punctuation">(</span>title<span class="token punctuation">)</span><span class="token punctuation">;</span>
+style<span class="token punctuation">.</span><span class="token function">bigText</span><span class="token punctuation">(</span>text<span class="token punctuation">)</span><span class="token punctuation">;</span>
+style<span class="token punctuation">.</span><span class="token function">setSummaryText</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span><span class="token function">getString</span><span class="token punctuation">(</span>R<span class="token punctuation">.</span>string<span class="token punctuation">.</span>app_name<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+NotificationCompat<span class="token punctuation">.</span>Builder builder <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">NotificationCompat<span class="token punctuation">.</span>Builder</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span><span class="token punctuation">;</span>
+builder<span class="token punctuation">.</span><span class="token function">setLargeIcon</span><span class="token punctuation">(</span>largeIcon<span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setSmallIcon</span><span class="token punctuation">(</span>R<span class="token punctuation">.</span>drawable<span class="token punctuation">.</span>cry<span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setTicker</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span><span class="token function">getString</span><span class="token punctuation">(</span>R<span class="token punctuation">.</span>string<span class="token punctuation">.</span>app_name<span class="token punctuation">)</span><span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setWhen</span><span class="token punctuation">(</span>System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setContentTitle</span><span class="token punctuation">(</span>title<span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setContentText</span><span class="token punctuation">(</span>text<span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setStyle</span><span class="token punctuation">(</span>style<span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setCategory</span><span class="token punctuation">(</span>NotificationCompat<span class="token punctuation">.</span>CATEGORY_MESSAGE<span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setAutoCancel</span><span class="token punctuation">(</span>isAutoCancel<span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setContentIntent</span><span class="token punctuation">(</span>pendingIntent<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>如上代码所示，BigText 通知的创建和标准通知的创建的唯一区别就在于设置样式。</p>
+<blockquote>
+<p>style.setSummaryText()，设置应用名称，跟 builder.setTicker() 保持一致即可，当然你也可以设置成其它名称；<br>style.setBigContentTitle()，设置标题，跟 builder.setContentTitle() 保持一致即可，这样能保证展开和收缩的标题是一样的；<br>style.bigText()，设置内容，跟 builder.setContentText() 保持一致即可，如果设置的不一样，则在展开和收缩的时候，显示的内容会有变化，会显得比较突兀。</p>
+</blockquote>
+<p><strong>使用 builder.setStyle() 设置样式之后，我们就可以愉快的显示很多内容了。</strong></p>
+<p><strong>注意</strong>标准通知中的<strong>所有属性和操作</strong>均可以在 BigText 中使用，比如点击事件和增加 Action 等。</p>
+<h3 id="BigPicture"><a href="#BigPicture" class="headerlink" title="BigPicture"></a>BigPicture</h3><center><img src="https://raw.githubusercontent.com/EasyToForget/NotificationDemo/master/gif/demo07.gif"></center>
+
+<p>如上图所示，你可以点击通知上的向下和向上的箭头来<strong>展开和收缩</strong>图片，比如购物类的 app，在推送商品的同时可以推送此商品的图片，让人有感觉的图片可以分分钟增加用户购物的欲望。</p>
+<pre class="line-numbers language-java"><code class="language-java">String title <span class="token operator">=</span> <span class="token string">"This is big picture title"</span><span class="token punctuation">;</span>
+String text <span class="token operator">=</span> <span class="token string">"This is big picture message"</span><span class="token punctuation">;</span>
+
+NotificationCompat<span class="token punctuation">.</span>BigPictureStyle style <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">NotificationCompat<span class="token punctuation">.</span>BigPictureStyle</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+style<span class="token punctuation">.</span><span class="token function">bigPicture</span><span class="token punctuation">(</span>BitmapFactory<span class="token punctuation">.</span><span class="token function">decodeResource</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span><span class="token function">getResources</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> R<span class="token punctuation">.</span>drawable<span class="token punctuation">.</span>google<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+style<span class="token punctuation">.</span><span class="token function">setBigContentTitle</span><span class="token punctuation">(</span>title<span class="token punctuation">)</span><span class="token punctuation">;</span>
+style<span class="token punctuation">.</span><span class="token function">setSummaryText</span><span class="token punctuation">(</span>text<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+NotificationCompat<span class="token punctuation">.</span>Builder builder <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">NotificationCompat<span class="token punctuation">.</span>Builder</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span><span class="token punctuation">;</span>
+builder<span class="token punctuation">.</span><span class="token function">setLargeIcon</span><span class="token punctuation">(</span>largeIcon<span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setSmallIcon</span><span class="token punctuation">(</span>R<span class="token punctuation">.</span>drawable<span class="token punctuation">.</span>cry<span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setTicker</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span><span class="token function">getString</span><span class="token punctuation">(</span>R<span class="token punctuation">.</span>string<span class="token punctuation">.</span>app_name<span class="token punctuation">)</span><span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setWhen</span><span class="token punctuation">(</span>System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setContentTitle</span><span class="token punctuation">(</span>title<span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setContentText</span><span class="token punctuation">(</span>text<span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setStyle</span><span class="token punctuation">(</span>style<span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setCategory</span><span class="token punctuation">(</span>NotificationCompat<span class="token punctuation">.</span>CATEGORY_MESSAGE<span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setAutoCancel</span><span class="token punctuation">(</span>isAutoCancel<span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setContentIntent</span><span class="token punctuation">(</span>pendingIntent<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>如上代码所示，BigPicture 通知的创建和标准通知的创建的唯一区别就在于设置样式。</p>
+<blockquote>
+<p>style.setSummaryText()，设置应用名称，跟 builder.setTicker() 保持一致即可，当然你也可以设置成其它名称；<br>style.setBigContentTitle()，设置标题，跟 builder.setContentTitle() 保持一致即可，这样能保证展开和收缩的标题是一样的；<br>style.bigPicture()，设置图片内容， builder 里面是无法直接设置图片的。</p>
+</blockquote>
+<p><strong>使用 builder.setStyle() 设置样式之后，我们就可以愉快的显示图片了。</strong></p>
+<p><strong>注意</strong>标准通知中的<strong>所有属性和操作</strong>均可以在 BigPicture 中使用，比如点击事件和增加 Action 等。</p>
+<h3 id="Inbox"><a href="#Inbox" class="headerlink" title="Inbox"></a>Inbox</h3><center><img src="https://raw.githubusercontent.com/EasyToForget/NotificationDemo/master/gif/demo05.gif"></center>
+
+<p>顾名思义，收件箱，主要用来推送多个邮件。如上图所示，你可以点击通知上的向下和向上的箭头来<strong>展开和收缩</strong>多个邮件。</p>
+<pre class="line-numbers language-java"><code class="language-java">NotificationCompat<span class="token punctuation">.</span>InboxStyle style <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">NotificationCompat<span class="token punctuation">.</span>InboxStyle</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+style<span class="token punctuation">.</span><span class="token function">addLine</span><span class="token punctuation">(</span><span class="token string">"This is first inbox message"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+style<span class="token punctuation">.</span><span class="token function">addLine</span><span class="token punctuation">(</span><span class="token string">"This is second inbox message"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+style<span class="token punctuation">.</span><span class="token function">addLine</span><span class="token punctuation">(</span><span class="token string">"This is third inbox message"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+style<span class="token punctuation">.</span><span class="token function">addLine</span><span class="token punctuation">(</span><span class="token string">"This is fourth inbox message"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+style<span class="token punctuation">.</span><span class="token function">addLine</span><span class="token punctuation">(</span><span class="token string">"This is fifth inbox message"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+style<span class="token punctuation">.</span><span class="token function">addLine</span><span class="token punctuation">(</span><span class="token string">"This is sixth inbox message"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+style<span class="token punctuation">.</span><span class="token function">addLine</span><span class="token punctuation">(</span><span class="token string">"This is seventh inbox message"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+style<span class="token punctuation">.</span><span class="token function">setBigContentTitle</span><span class="token punctuation">(</span><span class="token string">"This is inbox title"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+style<span class="token punctuation">.</span><span class="token function">setSummaryText</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span><span class="token function">getString</span><span class="token punctuation">(</span>R<span class="token punctuation">.</span>string<span class="token punctuation">.</span>app_name<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+NotificationCompat<span class="token punctuation">.</span>Builder builder <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">NotificationCompat<span class="token punctuation">.</span>Builder</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span><span class="token punctuation">;</span>
+builder<span class="token punctuation">.</span><span class="token function">setLargeIcon</span><span class="token punctuation">(</span>largeIcon<span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setSmallIcon</span><span class="token punctuation">(</span>R<span class="token punctuation">.</span>drawable<span class="token punctuation">.</span>cry<span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setTicker</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span><span class="token function">getString</span><span class="token punctuation">(</span>R<span class="token punctuation">.</span>string<span class="token punctuation">.</span>app_name<span class="token punctuation">)</span><span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setWhen</span><span class="token punctuation">(</span>System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setContentTitle</span><span class="token punctuation">(</span><span class="token string">"This is inbox title"</span><span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setContentText</span><span class="token punctuation">(</span><span class="token string">"This is inbox message"</span><span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setCategory</span><span class="token punctuation">(</span>NotificationCompat<span class="token punctuation">.</span>CATEGORY_EMAIL<span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setStyle</span><span class="token punctuation">(</span>style<span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setAutoCancel</span><span class="token punctuation">(</span>isAutoCancel<span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setContentIntent</span><span class="token punctuation">(</span>pendingIntent<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>如上代码所示，Inbox 通知的创建和标准通知的创建的唯一区别就在于设置样式。</p>
+<blockquote>
+<p>style.setSummaryText()，设置应用名称，跟 builder.setTicker() 保持一致即可，当然你也可以设置成其它名称；<br>style.setBigContentTitle()，设置标题，跟 builder.setContentTitle() 保持一致即可，这样能保证展开和收缩的标题是一样的；<br>style.addLine()，设置 Inbox 的邮件内容。</p>
+</blockquote>
+<p><strong>使用 builder.setStyle() 设置样式之后，我们就可以愉快的显示多封邮件了。</strong></p>
+<p><strong>注意</strong>标准通知中的<strong>所有属性和操作</strong>均可以在 Inbox 中使用，比如点击事件和增加 Action 等。</p>
+<h3 id="Messaging"><a href="#Messaging" class="headerlink" title="Messaging"></a>Messaging</h3><center><img src="https://raw.githubusercontent.com/EasyToForget/NotificationDemo/master/gif/demo08.gif"></center>
+
+<p>如上图所示，Messaging 样式主要用来做群组聊天，比如微信群，不用打开 app 就可以看到群里所有人的聊天，还可以直接回复。你可以点击通知上的向下和向上的箭头来<strong>展开和收缩</strong>群组聊天。</p>
+<pre class="line-numbers language-java"><code class="language-java">List<span class="token operator">&lt;</span>Message<span class="token operator">></span> list <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+list<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Message</span><span class="token punctuation">(</span><span class="token string">"What do you plan to do on the weekend?"</span>
+                    <span class="token punctuation">,</span> System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"Smile"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+list<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Message</span><span class="token punctuation">(</span><span class="token string">"Sleep."</span><span class="token punctuation">,</span> System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"Tracy"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+list<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Message</span><span class="token punctuation">(</span><span class="token string">"Go to Beijing.."</span><span class="token punctuation">,</span> System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"SB"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+list<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Message</span><span class="token punctuation">(</span><span class="token string">"Play football"</span><span class="token punctuation">,</span> System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"Naocan"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+list<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Message</span><span class="token punctuation">(</span><span class="token string">"Coding..."</span><span class="token punctuation">,</span> System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"Developer"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+String title <span class="token operator">=</span> <span class="token string">"This is messaging title"</span><span class="token punctuation">;</span>
+String text <span class="token operator">=</span> <span class="token string">"This is messaging message"</span><span class="token punctuation">;</span>
+
+NotificationCompat<span class="token punctuation">.</span>MessagingStyle style <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">NotificationCompat<span class="token punctuation">.</span>MessagingStyle</span><span class="token punctuation">(</span><span class="token string">"Smile"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">for</span> <span class="token punctuation">(</span>Message message <span class="token operator">:</span> list<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    style<span class="token punctuation">.</span><span class="token function">addMessage</span><span class="token punctuation">(</span>message<span class="token punctuation">.</span><span class="token function">getText</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> message<span class="token punctuation">.</span><span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> message<span class="token punctuation">.</span><span class="token function">getSender</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+style<span class="token punctuation">.</span><span class="token function">setConversationTitle</span><span class="token punctuation">(</span>title<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+NotificationCompat<span class="token punctuation">.</span>Builder builder <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">NotificationCompat<span class="token punctuation">.</span>Builder</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span><span class="token punctuation">;</span>
+builder<span class="token punctuation">.</span><span class="token function">setLargeIcon</span><span class="token punctuation">(</span>largeIcon<span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setSmallIcon</span><span class="token punctuation">(</span>R<span class="token punctuation">.</span>drawable<span class="token punctuation">.</span>cry<span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setTicker</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span><span class="token function">getString</span><span class="token punctuation">(</span>R<span class="token punctuation">.</span>string<span class="token punctuation">.</span>app_name<span class="token punctuation">)</span><span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setWhen</span><span class="token punctuation">(</span>System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setContentTitle</span><span class="token punctuation">(</span>title<span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setContentText</span><span class="token punctuation">(</span>text<span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setCategory</span><span class="token punctuation">(</span>NotificationCompat<span class="token punctuation">.</span>CATEGORY_MESSAGE<span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setStyle</span><span class="token punctuation">(</span>style<span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setAutoCancel</span><span class="token punctuation">(</span>isAutoCancel<span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setContentIntent</span><span class="token punctuation">(</span>pendingIntent<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>如上代码所示，Messaging 通知的创建和标准通知的创建的唯一区别就在于设置样式。</p>
+<blockquote>
+<p>style.setConversationTitle()，设置会话标题，比如群组名称，跟 builder.setContentTitle() 保持一致即可，当然你也可以设置成其它名称；<br>style.addMessage()，设置每个人的聊天内容。</p>
+</blockquote>
+<p><strong>使用 builder.setStyle() 设置样式之后，我们就可以愉快的显示多人聊天内容了。</strong></p>
+<p><strong>注意</strong>标准通知中的<strong>所有属性和操作</strong>均可以在 Messaging 中使用，比如点击事件和增加 Action 等。</p>
+<p>增加群组聊天直接回复 Action：</p>
+<pre class="line-numbers language-java"><code class="language-java">RemoteInput input <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">RemoteInput<span class="token punctuation">.</span>Builder</span><span class="token punctuation">(</span>KEY_TEXT_REPLY<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">setLabel</span><span class="token punctuation">(</span><span class="token string">"reply"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+Intent reply <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Intent</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+reply<span class="token punctuation">.</span><span class="token function">setAction</span><span class="token punctuation">(</span>REPLY_MESSAGING<span class="token punctuation">)</span><span class="token punctuation">;</span>
+reply<span class="token punctuation">.</span><span class="token function">setClass</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> NotificationReceiver<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+PendingIntent pendingReply <span class="token operator">=</span> PendingIntent<span class="token punctuation">.</span><span class="token function">getBroadcast</span><span class="token punctuation">(</span>context
+                            <span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span> SystemClock<span class="token punctuation">.</span><span class="token function">uptimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                            ， reply
+                            <span class="token punctuation">,</span> PendingIntent<span class="token punctuation">.</span>FLAG_UPDATE_CURRENT<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+
+NotificationCompat<span class="token punctuation">.</span>Action action <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">NotificationCompat<span class="token punctuation">.</span>Action</span>
+                <span class="token punctuation">.</span><span class="token function">Builder</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token string">"reply"</span><span class="token punctuation">,</span> pendingReply<span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">addRemoteInput</span><span class="token punctuation">(</span>input<span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">setAllowGeneratedReplies</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+builder<span class="token punctuation">.</span><span class="token function">addAction</span><span class="token punctuation">(</span>action<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在广播中接收发送的内容，然后通知通知栏更新群组聊天内容。</p>
+<h3 id="Media"><a href="#Media" class="headerlink" title="Media"></a>Media</h3><center><img src="https://raw.githubusercontent.com/EasyToForget/NotificationDemo/master/gif/demo09.gif"></center>
+
+<p>如上图所示，Media 主要用来关联音频播放服务的，通知栏点击后不会自动消失，通知栏的清空也不可用，但你可以左滑或右滑删除，所以一般要设置 <strong>setOngoing(true)</strong> 防止删除。你还可以在通知栏快捷的暂停、继续、切换歌曲等等，同样的你可以点击通知上的向下和向上的箭头来<strong>展开和收缩</strong>更多内容。</p>
+<pre class="line-numbers language-java"><code class="language-java">String title <span class="token operator">=</span> <span class="token string">"This is media title"</span><span class="token punctuation">;</span>
+String text <span class="token operator">=</span> <span class="token string">"This is media message"</span><span class="token punctuation">;</span>
+style<span class="token punctuation">.</span><span class="token function">setShowCancelButton</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+style<span class="token punctuation">.</span><span class="token function">setCancelButtonIntent</span><span class="token punctuation">(</span>pendingIntent<span class="token punctuation">)</span><span class="token punctuation">;</span>
+style<span class="token punctuation">.</span><span class="token function">setShowActionsInCompactView</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+style<span class="token punctuation">.</span><span class="token function">setMediaSession</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">MediaSessionCompat</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> <span class="token string">"MediaSession"</span><span class="token punctuation">,</span>
+        <span class="token keyword">new</span> <span class="token class-name">ComponentName</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> Intent<span class="token punctuation">.</span>ACTION_MEDIA_BUTTON<span class="token punctuation">)</span><span class="token punctuation">,</span> null<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getSessionToken</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+NotificationCompat<span class="token punctuation">.</span>Builder builder <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">NotificationCompat<span class="token punctuation">.</span>Builder</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span><span class="token punctuation">;</span>
+builder<span class="token punctuation">.</span><span class="token function">setLargeIcon</span><span class="token punctuation">(</span>largeIcon<span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setSmallIcon</span><span class="token punctuation">(</span>R<span class="token punctuation">.</span>drawable<span class="token punctuation">.</span>cry<span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setTicker</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span><span class="token function">getString</span><span class="token punctuation">(</span>R<span class="token punctuation">.</span>string<span class="token punctuation">.</span>app_name<span class="token punctuation">)</span><span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setWhen</span><span class="token punctuation">(</span>System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setContentTitle</span><span class="token punctuation">(</span>title<span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setContentText</span><span class="token punctuation">(</span>text<span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setCategory</span><span class="token punctuation">(</span>NotificationCompat<span class="token punctuation">.</span>CATEGORY_TRANSPORT<span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setStyle</span><span class="token punctuation">(</span>style<span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setOngoing</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span>
+       <span class="token punctuation">.</span><span class="token function">setContentIntent</span><span class="token punctuation">(</span>pendingIntent<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+Intent back <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Intent</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+back<span class="token punctuation">.</span><span class="token function">setAction</span><span class="token punctuation">(</span>BACK<span class="token punctuation">)</span><span class="token punctuation">;</span>
+back<span class="token punctuation">.</span><span class="token function">setClass</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> NotificationReceiver<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+PendingIntent pendingBack <span class="token operator">=</span> PendingIntent<span class="token punctuation">.</span><span class="token function">getBroadcast</span><span class="token punctuation">(</span>context
+                                <span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span> SystemClock<span class="token punctuation">.</span><span class="token function">uptimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                                <span class="token punctuation">,</span> back<span class="token punctuation">,</span> PendingIntent<span class="token punctuation">.</span>FLAG_UPDATE_CURRENT<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+Intent next <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Intent</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+next<span class="token punctuation">.</span><span class="token function">setAction</span><span class="token punctuation">(</span>NEXT<span class="token punctuation">)</span><span class="token punctuation">;</span>
+next<span class="token punctuation">.</span><span class="token function">setClass</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> NotificationReceiver<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+PendingIntent pendingNext <span class="token operator">=</span> PendingIntent<span class="token punctuation">.</span><span class="token function">getBroadcast</span><span class="token punctuation">(</span>context
+                            <span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span> SystemClock<span class="token punctuation">.</span><span class="token function">uptimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                            <span class="token punctuation">,</span> next<span class="token punctuation">,</span> PendingIntent<span class="token punctuation">.</span>FLAG_UPDATE_CURRENT<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+Intent pause <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Intent</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+pause<span class="token punctuation">.</span><span class="token function">setAction</span><span class="token punctuation">(</span>PAUSE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+pause<span class="token punctuation">.</span><span class="token function">setClass</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> NotificationReceiver<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+PendingIntent pendingPause <span class="token operator">=</span> PendingIntent<span class="token punctuation">.</span><span class="token function">getBroadcast</span><span class="token punctuation">(</span>context
+                           <span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span> SystemClock<span class="token punctuation">.</span><span class="token function">uptimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                           <span class="token punctuation">,</span> pause<span class="token punctuation">,</span> PendingIntent<span class="token punctuation">.</span>FLAG_UPDATE_CURRENT<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+builder<span class="token punctuation">.</span><span class="token function">addAction</span><span class="token punctuation">(</span>R<span class="token punctuation">.</span>drawable<span class="token punctuation">.</span>back<span class="token punctuation">,</span> <span class="token string">""</span><span class="token punctuation">,</span> pendingBack<span class="token punctuation">)</span><span class="token punctuation">;</span>
+builder<span class="token punctuation">.</span><span class="token function">addAction</span><span class="token punctuation">(</span>R<span class="token punctuation">.</span>drawable<span class="token punctuation">.</span>pause<span class="token punctuation">,</span> <span class="token string">""</span><span class="token punctuation">,</span> pendingPause<span class="token punctuation">)</span><span class="token punctuation">;</span>
+builder<span class="token punctuation">.</span><span class="token function">addAction</span><span class="token punctuation">(</span>R<span class="token punctuation">.</span>drawable<span class="token punctuation">.</span>next<span class="token punctuation">,</span> <span class="token string">""</span><span class="token punctuation">,</span> pendingNext<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>如上代码所示，Media 通知的创建和标准通知的创建的唯一区别就在于设置样式。</p>
+<ul>
+<li>style.setShowCancelButton(true)，设置是否显示一个关闭此通知的关闭按钮，在 Adnroid 5.0 之前设置为 true 才会显示，在 5.0 及以上，不管设置为 true 还是 false 均不会显示，也就是说 5.0 及以上没有这个功能，需要通过自定义通知去实现关闭；</li>
+<li>style.setCancelButtonIntent()，设置关闭按钮的点击事件；</li>
+<li>style.setShowActionsInCompactView(0, 1)，设置通知栏收缩时显示的按钮，显示按钮的顺序是通知栏展开时的从左到右，0代表只显示第一个，(0, 1)代表显示第一个和第二个。</li>
+</ul>
+<p><strong>使用 builder.setStyle() 设置样式之后，我们就可以愉快的显示音乐播放器了。</strong></p>
+<p><strong>注意</strong>为了保证音乐能够持续的播放，你需要在 Service 中创建 Media 样式的通知栏，通过 <strong>startForeground</strong> 启动通知栏，使得通知栏能够在前台显示，避免被销毁。</p>
+<p>详细的代码请参见<a href="https://github.com/EasyToForget/NotificationDemo">GitHub</a></p>
+<p>推荐阅读：<br>1、<a href="https://easytoforget.github.io/2017/08/05/android-activity-task-stack-manager/" target="_blank" rel="external">Android 全局管理 Activity 栈</a><br>2、<a href="https://easytoforget.github.io/2017/08/17/android-notification-first-shot/" target="_blank" rel="external">Android Notifications 百发百中之第一发</a><br>敬请期待 Android Notifications 百发百中之第三发（自定义通知）</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+<div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/wechat.jpg" alt="Smile Wei wechat" style="width: 200px; max-width: 100%;"/>
+    <div>请扫码关注我的微信公众号</div>
+</div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/17/android-notification-first-shot/" rel="next" title="Android Notifications 百发百中之第一发">
+                <i class="fa fa-chevron-left"></i> Android Notifications 百发百中之第一发
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/android-nougat.png"
+               alt="Smile Wei" />
+          <p class="site-author-name" itemprop="name">Smile Wei</p>
+           
+              <p class="site-description motion-element" itemprop="description">Love Android, Love Google.</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#第二发主要介绍通知栏的各种样式以及如何设置样式来创建你所需要的通知栏，依然是这个表格："><span class="nav-number">1.</span> <span class="nav-text">第二发主要介绍通知栏的各种样式以及如何设置样式来创建你所需要的通知栏，依然是这个表格：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BigText"><span class="nav-number"></span> <span class="nav-text">BigText</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BigPicture"><span class="nav-number"></span> <span class="nav-text">BigPicture</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Inbox"><span class="nav-number"></span> <span class="nav-text">Inbox</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Messaging"><span class="nav-number"></span> <span class="nav-text">Messaging</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Media"><span class="nav-number"></span> <span class="nav-text">Media</span></a></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Smile Wei</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
